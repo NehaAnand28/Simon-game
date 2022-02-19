@@ -65,7 +65,7 @@ function playSound(name) {
       default:
         var sound5 = new Audio("sounds/wrong.mp3");
         sound5.play();
-        console.log(gamePattern[i]);
+        console.log(name);
         break;
   }
 }
