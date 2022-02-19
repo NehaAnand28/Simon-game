@@ -49,4 +49,13 @@ body {
 .pressed {
   box-shadow: 0 0 20px white;
   background-color: grey;
+  /* animation-name:flash;
+  animation-duration: 0.5s; */
+  
 }
+/* @keyframes flash {
+    100%{
+      box-shadow: 0 0 20px white;
+      background-color: grey;
+    }
+  } */
