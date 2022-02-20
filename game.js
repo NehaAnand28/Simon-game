@@ -4,11 +4,15 @@
 //test if jQuery is linked to html correctly by logging 👇 to console
 // console.log($("h1"));
 
+//calls nextSequence() only on the first keypress event
+
+
+var level = 0;
 //stores the game pattern
 var gamePattern = [];
 
 //stores the user clicked pattern
-var userClikedPattern = [];
+var userClickedPattern = [];
 
 //stores all the button colours
 var buttonColours = ["red", "green", "yellow", "blue"];
@@ -16,6 +20,10 @@ var buttonColours = ["red", "green", "yellow", "blue"];
 function debug(input) {
   console.log(input);
 }
+
+$(document).one("keypress", function () {
+  nextSequence();
+});
 
 function nextSequence() {
   //generates a random number between 0 and 3 (4 numbers)
@@ -31,7 +39,8 @@ function nextSequence() {
     .fadeIn(100)
     .fadeOut(100)
     .fadeIn(100);
-
+  $("#level-title").text("Level " + level);
+  level++;
   //to play audio in javascript
   //   var audio = new Audio("sounds/" + randomChosenColour + ".mp3");
   //   audio.play();
@@ -40,8 +49,9 @@ function nextSequence() {
 $(".btn").on("click", function (e) {
   var userChosenColour = e.target.id;
   //Chosen color is added to userClikedPattern array when a btn is clicked
-  userClikedPattern.push(userChosenColour);
-  debug(userClikedPattern);
+  userClickedPattern.push(userChosenColour);
+  debug(userClickedPattern);
+  checkAnswer(userClickedPattern.length-1);
   //plays sound corresponding to chosen colour
   playSound(userChosenColour);
   //animates button corresponding to chosen colour
@@ -86,6 +96,28 @@ function playSound(name) {
   }
 }
 
-$(document).on("keypress", function () {
-  nextSequence();
-});
+function checkAnswer(currentLevel){
+  if(userClickedPattern[currentLevel] == gamePattern[currentLevel]){
+    debug("success");
+    if(userClickedPattern.length == gamePattern.length){
+      setTimeout(function () {
+        nextSequence();
+        userClickedPattern = [];
+      }, 1000);
+    }
+    
+  }else{
+    debug("failure");
+    playSound("wrong");
+    userClickedPattern=[];
+    $("body").addClass("game-over");
+    $("#level-title").text("Game Over\n Press any key to start");
+    $(document).one("keypress", function () {
+      level = 0;
+      gamePattern=[];
+      nextSequence();
+      $("body").removeClass("game-over");
+    });
+  }
+}
+
