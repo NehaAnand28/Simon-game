@@ -19,8 +19,8 @@ body {
 .btn {
   margin: 25px;
   display: inline-block;
-  height: 200px;
   width: 200px;
+  height: 200px;
   border: 10px solid black;
   border-radius: 20%;
 }
@@ -59,3 +59,20 @@ body {
       background-color: grey;
     }
   } */
+
+
+
+@media only screen and (max-width: 600px) {
+  #level-title {
+    font-size: 2rem;
+  }
+  .container{
+    width: 90%;
+    margin-top:3%;
+  }
+  .btn{
+    margin:15px;
+    width: 90px;
+    height: 90px;
+  }
+}
