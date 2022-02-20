@@ -4,8 +4,6 @@
 //test if jQuery is linked to html correctly by logging 👇 to console
 // console.log($("h1"));
 
-//calls nextSequence() only on the first keypress event
-
 
 var level;
 //stores the game pattern
@@ -28,6 +26,7 @@ $(document).one("keypress", function () {
 
 //For the first start and subsequent restart startOver is called
 function startOver(){
+  //Press any key to start/restart the game
   $(document).one("keypress", function () {
     level = 1;
     gamePattern = [];
@@ -44,11 +43,8 @@ function nextSequence() {
   gamePattern.push(randomChosenColour);
   debug(gamePattern);
   playSound(randomChosenColour);
-  //using jQuery to choose the div with same id as randomChosenColour
-  $("#" + randomChosenColour)
-    .fadeIn(100)
-    .fadeOut(100)
-    .fadeIn(100);
+  //using jQuery to choose the div with same id as randomChosenColour and flash the animation
+  $("#" + randomChosenColour).fadeIn(100).fadeOut(100).fadeIn(100);
   $("#level-title").text("Level " + level);
   level++;
   //to play audio in javascript
@@ -66,19 +62,20 @@ $(".btn").on("click", function (e) {
   playSound(userChosenColour);
   //animates button corresponding to chosen colour
   animatePress(userChosenColour);
-  // nextSequence();
 });
 
 function animatePress(currentColour) {
-    debug(currentColour);
-    // this function adds a pressed class to the button that gets clicked 
-    $("." + currentColour).addClass("pressed");
-    //SetTimeout() -> removes the pressed class from the button after a delay of 100ms
-  setTimeout(function() {
-      $("." + currentColour).removeClass("pressed");
-  },100);
+  debug(currentColour);
+  // this function adds a pressed class to the button that gets clicked
+  $("." + currentColour).addClass("pressed");
+  // SetTimeout() 👉 removes the pressed class from the button after a delay of 100ms
+  setTimeout(function () {
+    $("." + currentColour).removeClass("pressed");
+  }, 100);
 }
 
+
+//👇 function plays the sound corresponding to chosen colour
 function playSound(name) {
   switch (name) {
     case "red":
@@ -97,37 +94,46 @@ function playSound(name) {
       var sound4 = new Audio("sounds/blue.mp3");
       sound4.play();
       break;
-
-    default:
+    case "wrong":
       var sound5 = new Audio("sounds/wrong.mp3");
       sound5.play();
+      break;
+
+    default:
       console.log(name);
       break;
   }
 }
 
 function checkAnswer(currentLevel){
-  if(userClickedPattern[currentLevel] == gamePattern[currentLevel]){
+  //if last user sequence matches current game pattern 👉 success ✅ else failure❌
+  if (userClickedPattern[currentLevel] == gamePattern[currentLevel]) {
+    //On success ✅
     debug("success");
-    if(userClickedPattern.length == gamePattern.length){
+    //if sequence is finished then call nextSequence() and reset the userClickedPattern after 1000ms delay
+    if (userClickedPattern.length == gamePattern.length) {
       setTimeout(function () {
         nextSequence();
         userClickedPattern = [];
       }, 1000);
     }
-    
-  }else{
+  } else {
+    // On failure ❌
     debug("failure");
+    //if user clicks the wrong pattern then wrong sound is played
     playSound("wrong");
-    userClickedPattern=[];
+    //if user clicks the wrong pattern then userClickedPattern is reset
+    userClickedPattern = [];
 
-
+    //flashes the red background color for 200ms;
     $("body").addClass("game-over");
     setTimeout(function () {
       $("body").removeClass("game-over");
     }, 200);
-    
+
+    //if pattern is wrong h1 text is changed to game over
     $("#level-title").text("Game Over , Press any key to restart");
+    //control is transferred to startOver()
     startOver();
   }
 }
