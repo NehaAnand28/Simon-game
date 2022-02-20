@@ -20,16 +20,16 @@ function debug(input) {
   console.log(input);
 }
 
-//Starts the game at the first key pressed
-$(document).one("keydown", function () {
+//Starts the game when start is clicked
+$("#start").one("click", function () {
   level = 1;
   nextSequence();
 });
 
 //For the subsequent restart startOver is called
 function startOver(){
-  //Press any key to restart the game
-  $(document).one("keydown", function () {
+  //Press start to restart the game
+  $("#start").one("click", function () {
     level = 1;
     gamePattern = [];
     nextSequence();
@@ -47,7 +47,7 @@ function nextSequence() {
   playSound(randomChosenColour);
   //using jQuery to choose the div with same id as randomChosenColour and flash the animation
   $("#" + randomChosenColour).fadeIn(100).fadeOut(100).fadeIn(100);
-  $("#level-title").text("Level " + level);
+  $("#level-title").text("Level " + level).css("font-size","2.5rem");
   level++;
   //to play audio in javascript
   //   var audio = new Audio("sounds/" + randomChosenColour + ".mp3");
@@ -134,7 +134,7 @@ function checkAnswer(currentLevel){
     }, 200);
 
     //if pattern is wrong h1 text is changed to game over
-    $("#level-title").text("Game Over , Press any key to restart");
+    $("#level-title").text("Game Over , Press start to restart").css("font-size","1.8rem");
     //control is transferred to startOver()
     startOver();
   }
