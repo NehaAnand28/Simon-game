@@ -1,2 +1,2 @@
 # SIMON GAME
-## Built with jQuery 
+## Built with jQuery ✨
