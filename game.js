@@ -7,7 +7,7 @@
 //calls nextSequence() only on the first keypress event
 
 
-var level = 1;
+var level;
 //stores the game pattern
 var gamePattern = [];
 
@@ -21,9 +21,19 @@ function debug(input) {
   console.log(input);
 }
 
+//Starts the game at the first key pressed
 $(document).one("keypress", function () {
-  nextSequence();
+  startOver();
 });
+
+//For the first start and subsequent restart startOver is called
+function startOver(){
+  $(document).one("keypress", function () {
+    level = 1;
+    gamePattern = [];
+    nextSequence();
+  });
+}
 
 function nextSequence() {
   //generates a random number between 0 and 3 (4 numbers)
@@ -118,11 +128,7 @@ function checkAnswer(currentLevel){
     }, 200);
     
     $("#level-title").text("Game Over , Press any key to restart");
-    $(document).one("keypress", function () {
-      level = 1;
-      gamePattern=[];
-      nextSequence();
-    });
+    startOver();
   }
 }
 
