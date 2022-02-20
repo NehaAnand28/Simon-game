@@ -21,7 +21,7 @@ function debug(input) {
 }
 
 //Starts the game at the first key pressed
-$(document).one("keypress", function () {
+$(document).one("keydown", function () {
   level = 1;
   nextSequence();
 });
@@ -29,7 +29,7 @@ $(document).one("keypress", function () {
 //For the subsequent restart startOver is called
 function startOver(){
   //Press any key to restart the game
-  $(document).one("keypress", function () {
+  $(document).one("keydown", function () {
     level = 1;
     gamePattern = [];
     nextSequence();
