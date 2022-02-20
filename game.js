@@ -15,6 +15,7 @@ var userClickedPattern = [];
 //stores all the button colours
 var buttonColours = ["red", "green", "yellow", "blue"];
 
+//function to print the logs to console
 function debug(input) {
   console.log(input);
 }
@@ -41,7 +42,7 @@ function nextSequence() {
   var randomChosenColour = buttonColours[randomNumber];
   //   debug(randomChosenColour);
   gamePattern.push(randomChosenColour);
-  debug(gamePattern);
+  // debug("Game pattern: " + gamePattern);
   playSound(randomChosenColour);
   //using jQuery to choose the div with same id as randomChosenColour and flash the animation
   $("#" + randomChosenColour).fadeIn(100).fadeOut(100).fadeIn(100);
@@ -56,7 +57,7 @@ $(".btn").on("click", function (e) {
   var userChosenColour = e.target.id;
   //Chosen color is added to userClikedPattern array when a btn is clicked
   userClickedPattern.push(userChosenColour);
-  debug(userClickedPattern);
+  // debug("User clicked Pattern : " + userClickedPattern);
   checkAnswer(userClickedPattern.length-1);
   //plays sound corresponding to chosen colour
   playSound(userChosenColour);
@@ -65,7 +66,7 @@ $(".btn").on("click", function (e) {
 });
 
 function animatePress(currentColour) {
-  debug(currentColour);
+  // debug(currentColour);
   // this function adds a pressed class to the button that gets clicked
   $("." + currentColour).addClass("pressed");
   // SetTimeout() 👉 removes the pressed class from the button after a delay of 100ms
@@ -109,7 +110,7 @@ function checkAnswer(currentLevel){
   //if last user sequence matches current game pattern 👉 success ✅ else failure❌
   if (userClickedPattern[currentLevel] == gamePattern[currentLevel]) {
     //On success ✅
-    debug("success");
+    // debug("success");
     //if sequence is finished then call nextSequence() and reset the userClickedPattern after 1000ms delay
     if (userClickedPattern.length == gamePattern.length) {
       setTimeout(function () {
@@ -119,7 +120,7 @@ function checkAnswer(currentLevel){
     }
   } else {
     // On failure ❌
-    debug("failure");
+    // debug("failure");
     //if user clicks the wrong pattern then wrong sound is played
     playSound("wrong");
     //if user clicks the wrong pattern then userClickedPattern is reset
