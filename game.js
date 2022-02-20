@@ -7,7 +7,7 @@
 //calls nextSequence() only on the first keypress event
 
 
-var level = 0;
+var level = 1;
 //stores the game pattern
 var gamePattern = [];
 
@@ -110,13 +110,18 @@ function checkAnswer(currentLevel){
     debug("failure");
     playSound("wrong");
     userClickedPattern=[];
+
+
     $("body").addClass("game-over");
-    $("#level-title").text("Game Over\n Press any key to start");
+    setTimeout(function () {
+      $("body").removeClass("game-over");
+    }, 200);
+    
+    $("#level-title").text("Game Over , Press any key to restart");
     $(document).one("keypress", function () {
-      level = 0;
+      level = 1;
       gamePattern=[];
       nextSequence();
-      $("body").removeClass("game-over");
     });
   }
 }
